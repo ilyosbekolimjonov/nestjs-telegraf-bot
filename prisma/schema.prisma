@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  chatId     BigInt   @unique
+  name       String
+  age        String
+  phone      String
+  regionId   Int
+  districtId Int
+  createdAt  DateTime @default(now())
+
+  region   Region   @relation(fields: [regionId], references: [id])
+  district District @relation(fields: [districtId], references: [id])
+}
+
+model Region {
+  id        Int        @id @default(autoincrement())
+  name      String
+  districts District[]
+  user      User[]
+}
+
+model District {
+  id       Int    @id @default(autoincrement())
+  name     String
+  regionId Int
+  region   Region @relation(fields: [regionId], references: [id])
+
+  user User[]
+}
