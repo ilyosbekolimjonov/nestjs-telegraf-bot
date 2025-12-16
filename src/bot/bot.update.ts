@@ -9,11 +9,10 @@ export class BotUpdate {
     constructor(
         private botService: BotService,
         private userService: UserService,
-    ) { }
+    ){}
 
     @Start()
     async start(@Ctx() ctx: BotContext) {
-        await ctx.reply(`Xush Ko\'rdik ${ctx.from?.first_name}.`);
         const telegramId = ctx.from!.id.toString();
 
         const isMember = await this.botService.checkChannelMembership(ctx);
@@ -24,7 +23,7 @@ export class BotUpdate {
 
         const isRegistered = await this.userService.isUserRegistered(telegramId);
         if (isRegistered) {
-            await ctx.reply('Xush kelibsiz! Siz allaqachon ro\'yxatdan o\'tgansiz.');
+            await ctx.reply(`Xush Ko\'rdik ${ctx.from?.first_name}.`);
         } else {
             await ctx.scene.enter('registration')
         }
@@ -44,7 +43,7 @@ export class BotUpdate {
             if (!isRegistered) {
                 await ctx.scene.enter('registration')
             } else {
-                await ctx.reply('Xush kelibsiz!');
+                await ctx.reply(`Xush Ko\'rdik ${ctx.from?.first_name}.`);
             }
         } else {
             await ctx.answerCbQuery('❌ Siz hali barcha kanallarga a\'zo bo\'lmadingiz!', { show_alert: true });

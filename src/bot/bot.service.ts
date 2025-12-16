@@ -39,7 +39,8 @@ export class BotService {
         );
 
         const checkButton = [Markup.button.callback('✅ Tekshirish', 'check_subscription')];
-
+        
+        await ctx.reply(`Xush Ko\'rdik ${ctx.from?.first_name}.`);
         await ctx.reply(
             '❗️ Botdan foydalanish uchun quyidagi kanallarga a\'zo bo\'lishingiz kerak:',
             Markup.inlineKeyboard([
