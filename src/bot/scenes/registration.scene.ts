@@ -41,6 +41,11 @@ export class RegistrationScene {
         if (ctx.session.step === 'phone') {
             const contact = (ctx.message as any).contact;
             ctx.session.registrationData!.phone = contact.phone_number;
+
+            await ctx.reply(
+                '✅ Telefon raqam qabul qilindi!',
+                Markup.removeKeyboard()
+            );
             await this.askRegion(ctx);
         }
     }
@@ -53,14 +58,14 @@ export class RegistrationScene {
 
         ctx.session.registrationData!.name = name;
         ctx.session.step = 'age';
-        await ctx.reply('Yoshingizni kiriting (masalan: 25):');
+        await ctx.reply('Yoshingizni kiriting (masalan: 20):');
     }
 
     private async handleAge(ctx: BotContext, age: string) {
         const ageNum = parseInt(age);
 
-        if (isNaN(ageNum) || ageNum < 10 || ageNum > 100) {
-            await ctx.reply('Iltimos, to\'g\'ri yosh kiriting (10-100 oralig\'ida):');
+        if (isNaN(ageNum) || ageNum < 10 || ageNum > 122) {
+            await ctx.reply('Yosh oralig\'i quyidagicha bo\'lishi kerak -> 10-122 :');
             return;
         }
 
@@ -82,6 +87,11 @@ export class RegistrationScene {
         }
 
         ctx.session.registrationData!.phone = phone;
+        await ctx.reply(
+            '✅ Telefon raqam qabul qilindi!',
+            Markup.removeKeyboard()
+        );
+
         await this.askRegion(ctx);
     }
 
@@ -96,6 +106,7 @@ export class RegistrationScene {
             '📍 Viloyatingizni tanlang:',
             Markup.inlineKeyboard(buttons)
         );
+
     }
 
     @Action(/region_(\d+)/)
